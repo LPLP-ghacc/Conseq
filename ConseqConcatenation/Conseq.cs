@@ -78,21 +78,20 @@ public static class Conseq
         var instance = Activator.CreateInstance(targetType)!;
 
         var lines = text
-            .Split(new[] { "\r\n", "\n" }, StringSplitOptions.None)
+            .Split(["\r\n", "\n"], StringSplitOptions.None)
             .Select(l => l.Trim())
             .Where(l => !string.IsNullOrWhiteSpace(l))
-            .Where(l => !l.StartsWith("#"))
+            .Where(l => !l.StartsWith('#'))
             .ToList();
 
-        // Удаляем заголовок [Header]
-        if (lines.Count > 0 && lines[0].StartsWith("[") && lines[0].EndsWith("]"))
+        if (lines.Count > 0 && lines[0].StartsWith('[') && lines[0].EndsWith(']'))
             lines.RemoveAt(0);
 
         var keyValuePairs = ParseKeyValue(lines);
 
         var members = targetType
             .GetMembers(BindingFlags.Public | BindingFlags.Instance)
-            .Where(m => m.MemberType == MemberTypes.Field || m.MemberType == MemberTypes.Property)
+            .Where(m => m.MemberType is MemberTypes.Field or MemberTypes.Property)
             .ToList();
 
         foreach (var (key, value) in keyValuePairs)
@@ -123,7 +122,7 @@ public static class Conseq
                 case FieldInfo f:
                     f.SetValue(instance, converted);
                     break;
-                case PropertyInfo p when p.CanWrite:
+                case PropertyInfo { CanWrite: true } p:
                     p.SetValue(instance, converted);
                     break;
             }
