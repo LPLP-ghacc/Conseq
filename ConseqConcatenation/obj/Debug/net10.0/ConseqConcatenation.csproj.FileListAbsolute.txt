@@ -1,0 +1,11 @@
+C:\Users\alpha\RiderProjects\Conseq\ConseqConcatenation\bin\Debug\net10.0\ConseqConcatenation.deps.json
+C:\Users\alpha\RiderProjects\Conseq\ConseqConcatenation\bin\Debug\net10.0\ConseqConcatenation.dll
+C:\Users\alpha\RiderProjects\Conseq\ConseqConcatenation\bin\Debug\net10.0\ConseqConcatenation.pdb
+C:\Users\alpha\RiderProjects\Conseq\ConseqConcatenation\obj\Debug\net10.0\ConseqConcatenation.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\alpha\RiderProjects\Conseq\ConseqConcatenation\obj\Debug\net10.0\ConseqConcatenation.AssemblyInfoInputs.cache
+C:\Users\alpha\RiderProjects\Conseq\ConseqConcatenation\obj\Debug\net10.0\ConseqConcatenation.AssemblyInfo.cs
+C:\Users\alpha\RiderProjects\Conseq\ConseqConcatenation\obj\Debug\net10.0\ConseqConcatenation.csproj.CoreCompileInputs.cache
+C:\Users\alpha\RiderProjects\Conseq\ConseqConcatenation\obj\Debug\net10.0\ConseqConcatenation.dll
+C:\Users\alpha\RiderProjects\Conseq\ConseqConcatenation\obj\Debug\net10.0\refint\ConseqConcatenation.dll
+C:\Users\alpha\RiderProjects\Conseq\ConseqConcatenation\obj\Debug\net10.0\ConseqConcatenation.pdb
+C:\Users\alpha\RiderProjects\Conseq\ConseqConcatenation\obj\Debug\net10.0\ref\ConseqConcatenation.dll
