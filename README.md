@@ -192,4 +192,4 @@ Collections:
 
 ## License
 
-MIT License
+[MIT License](https://github.com/LPLP-ghacc/Conseq/blob/master/LICENSE)
