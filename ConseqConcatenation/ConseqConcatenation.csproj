@@ -1,9 +1,14 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
     <PropertyGroup>
-        <TargetFramework>net10.0</TargetFramework>
         <ImplicitUsings>enable</ImplicitUsings>
         <Nullable>enable</Nullable>
+        <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+        <Title>Conseq</Title>
+        <Authors>LPLP</Authors>
+        <Description>a convenient format for recording data from different objects </Description>
+        <RepositoryUrl>https://github.com/LPLP-ghacc/Conseq</RepositoryUrl>
+        <TargetFramework>net10.0</TargetFramework>
     </PropertyGroup>
 
 </Project>

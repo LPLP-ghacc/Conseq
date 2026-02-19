@@ -10,13 +10,15 @@
 using System;
 using System.Reflection;
 
-[assembly: System.Reflection.AssemblyCompanyAttribute("ConseqConcatenation")]
+[assembly: System.Reflection.AssemblyCompanyAttribute("LPLP")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
+[assembly: System.Reflection.AssemblyDescriptionAttribute("a convenient format for recording data from different objects ")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+7d2eeaf3d47710cfdf922d30ee780afa6ba2798c")]
 [assembly: System.Reflection.AssemblyProductAttribute("ConseqConcatenation")]
 [assembly: System.Reflection.AssemblyTitleAttribute("ConseqConcatenation")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]
+[assembly: System.Reflection.AssemblyMetadataAttribute("RepositoryUrl", "https://github.com/LPLP-ghacc/Conseq")]
 
 // Создано классом WriteCodeFragment MSBuild.
 
