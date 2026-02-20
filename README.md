@@ -43,6 +43,11 @@ Clone the repository:
 ```bash
 git clone https://github.com/yourusername/ConseqConcatenation.git
 ```
+or install from Nuget
+```bash
+dotnet add package ConseqConcatenation
+```
+
 
 Or add the project directly to your solution.
 
