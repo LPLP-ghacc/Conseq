@@ -2,6 +2,57 @@
 
 namespace CCTest;
 
+public class Settings: IConseqData
+{
+    public string VoiceInput { get; init; } = null!;
+    public int VoiceSpeed { get; init; }
+    public int VoiceVolume { get; init; }
+    public int StdDelay { get; init; }
+    public string ReaderName { get; init; } = null!;
+
+    public Settings(string voiceInput, int voiceSpeed, int voiceVolume, int stdDelay, string readerName) 
+    {
+        VoiceInput = voiceInput;
+        VoiceSpeed = voiceSpeed;
+        VoiceVolume = voiceVolume;
+        StdDelay = stdDelay;
+        ReaderName = readerName;
+    }
+    
+    public static Settings Default { get; } = new("CABLE Input", 0, 100, 10, "Microsoft Irina");
+
+    public async Task Save(string path, string fileName)
+    {
+        var conseq = this.Conqsequalize();
+        
+        await File.WriteAllTextAsync(Path.Combine(path, fileName), conseq);
+    }
+
+    public static async Task<Settings> Load(string path)
+    {
+        if (!Path.Exists(path))
+        {
+            var settings = Default;
+            var conseqSave = settings.Conqsequalize();
+            await File.WriteAllTextAsync(Path.Combine(Environment.CurrentDirectory, "settings.cc"), conseqSave);
+            
+            return settings;
+        }
+        
+        var conseq = await File.ReadAllTextAsync(path);
+        
+        try
+        {
+            return Conseq.Deconqsequalize<Settings>(conseq);
+        }
+        catch
+        {
+            return Default;
+        }
+    }
+}
+
+
 [Comment("this class represents a test for Conqsequalize processing")]
 [ElementName("example class")]
 public class Example : IConseqData
@@ -37,7 +88,7 @@ public static class Program
             Enabled = true
         };
 
-        var text = example.Conqsequalize(ConseqFormat.Compact);
+        var text = example.Conqsequalize();
         
         Console.WriteLine(text);
         /*

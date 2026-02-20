@@ -25,7 +25,6 @@ public enum ConseqFormat
 
 public interface IConseqData;
 
-// God, save my soul please!
 public static class Conseq
 {
     extension(IConseqData data)
@@ -68,10 +67,7 @@ public static class Conseq
         }
     }
     
-    public static T Deconqsequalize<T>(string text) where T : IConseqData, new()
-    {
-        return (T)Deconqsequalize(text, typeof(T));
-    }
+    public static T Deconqsequalize<T>(string text) where T : IConseqData => (T)Deconqsequalize(text, typeof(T));
 
     private static object Deconqsequalize(string text, Type targetType)
     {
@@ -136,14 +132,23 @@ public static class Conseq
 
     private static List<(string key, string value)> ParseKeyValue(List<string> lines)
     {
-        return (from line in lines
-            let sepIndex = line.Contains('=')
-                ? line.IndexOf('=')
-                : line.IndexOf(':')
+        var result = new List<(string, string)>();
+
+        foreach (var segments in lines.Select(line => line.Contains(' ') && !line.Contains('=')
+                     ? line.Split(' ', StringSplitOptions.RemoveEmptyEntries)
+                     : [line]))
+        {
+            result.AddRange(from segment in segments
+                let sepIndex = segment.Contains('=')
+                    ? segment.IndexOf('=')
+                    : segment.IndexOf(':')
                 where sepIndex > 0
-            let key = line[..sepIndex].Trim()
-            let value = line[(sepIndex + 1)..].Trim()
-            select (key, value)).ToList();
+                let key = segment[..sepIndex].Trim()
+                let value = segment[(sepIndex + 1)..].Trim()
+                select (key, value));
+        }
+
+        return result;
     }
 
     private static object? ConvertValue(string value, Type targetType)
