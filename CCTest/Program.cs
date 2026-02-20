@@ -1,4 +1,5 @@
 ﻿using ConseqConcatenation;
+using ConseqConcatenation.TESTS;
 
 namespace CCTest;
 
@@ -72,6 +73,8 @@ public static class Program
 {
     public static void Main(string[] args)
     {
+        RootCollectionTest.Run();
+        
         var example = new Example
         {
             Numbers = [0, 0, 0, 1],

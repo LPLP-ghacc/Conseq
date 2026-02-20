@@ -67,13 +67,80 @@ public static class Conseq
         }
     }
     
-    public static T Deconqsequalize<T>(string text) where T : IConseqData => (T)Deconqsequalize(text, typeof(T));
+    public static string Conqsequalize<T>(T data, ConseqFormat format = ConseqFormat.None)
+    {
+        if (data is IEnumerable enumerable and not string)
+        {
+            var blocks = new List<string>();
+
+            foreach (var item in enumerable)
+            {
+                if (item is IConseqData cd)
+                    blocks.Add(cd.Conqsequalize(format));
+            }
+
+            return string.Join(Environment.NewLine + Environment.NewLine, blocks);
+        }
+
+        if (data is IConseqData conseq)
+            return conseq.Conqsequalize(format);
+
+        throw new InvalidOperationException("Unsupported root type.");
+    }
+    
+    private static object DeserializeRootCollection(string text, Type targetType)
+    {
+        var elementType = targetType.IsArray
+            ? targetType.GetElementType()!
+            : targetType.GetGenericArguments()[0];
+
+        var itemsText = text
+            .Split(["\r\n\r\n"], StringSplitOptions.RemoveEmptyEntries);
+
+        var list = (IList)Activator.CreateInstance(
+            typeof(List<>).MakeGenericType(elementType))!;
+
+        foreach (var itemText in itemsText)
+        {
+            var item = Deconqsequalize(itemText.Trim(), elementType);
+            list.Add(item);
+        }
+
+        if (targetType.IsArray)
+        {
+            var array = Array.CreateInstance(elementType, list.Count);
+            list.CopyTo(array, 0);
+            return array;
+        }
+
+        if (targetType.IsInterface)
+            return list;
+
+        var concrete = Activator.CreateInstance(targetType)!;
+        var addMethod = targetType.GetMethod("Add");
+
+        foreach (var item in list)
+            addMethod?.Invoke(concrete, [item]);
+
+        return concrete;
+    }
+    
+    private static bool IsRootCollection(Type type)
+    {
+        if (type == typeof(string)) return false;
+        if (type.IsArray) return true;
+
+        return type.IsGenericType &&
+               typeof(IEnumerable).IsAssignableFrom(type);
+    }
+    
+    public static T Deconqsequalize<T>(string text) => (T)Deconqsequalize(text, typeof(T));
 
     private static object Deconqsequalize(string text, Type targetType)
     {
-        if (!typeof(IConseqData).IsAssignableFrom(targetType))
-            throw new InvalidOperationException("Type must implement IConseqData.");
-
+        if (IsRootCollection(targetType))
+            return DeserializeRootCollection(text, targetType);
+        
         var instance = Activator.CreateInstance(targetType)!;
 
         var lines = text
@@ -134,9 +201,10 @@ public static class Conseq
     {
         var result = new List<(string, string)>();
 
-        foreach (var segments in lines.Select(line => line.Contains(' ') && !line.Contains('=')
-                     ? line.Split(' ', StringSplitOptions.RemoveEmptyEntries)
-                     : [line]))
+        foreach (var segments in lines.Select(line =>
+                     line.Contains(' ') && !line.Contains('=')
+                         ? line.Split(' ', StringSplitOptions.RemoveEmptyEntries)
+                         : [line]))
         {
             result.AddRange(from segment in segments
                 let sepIndex = segment.Contains('=')
@@ -144,7 +212,9 @@ public static class Conseq
                     : segment.IndexOf(':')
                 where sepIndex > 0
                 let key = segment[..sepIndex].Trim()
-                let value = segment[(sepIndex + 1)..].Trim()
+                let value = segment[(sepIndex + 1)..]
+                    .Trim()
+                    .TrimEnd(',')
                 select (key, value));
         }
 

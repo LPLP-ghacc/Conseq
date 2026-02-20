@@ -9,6 +9,9 @@
         <Description>a convenient format for recording data from different objects </Description>
         <RepositoryUrl>https://github.com/LPLP-ghacc/Conseq</RepositoryUrl>
         <TargetFramework>net10.0</TargetFramework>
+        <Version>1.0.1</Version>
+        <PackageProjectUrl>https://github.com/LPLP-ghacc/Conseq</PackageProjectUrl>
+        <PackageLicenseUrl>https://github.com/LPLP-ghacc/Conseq/blob/master/LICENSE</PackageLicenseUrl>
     </PropertyGroup>
 
 </Project>
